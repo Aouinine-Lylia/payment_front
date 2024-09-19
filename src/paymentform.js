@@ -16,7 +16,10 @@ export const PaymentForm = () => {
   const [stripe, setStripe] = useState(null);
   const [elements, setElements] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("sepa");
+  const [paymentMethodId, setPaymentMethodId] = useState(null);
   const ibanRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const initializeStripe = async () => {
@@ -46,8 +49,60 @@ export const PaymentForm = () => {
     initializeStripe();
   }, [paymentMethod]);
 
+  const handleSubmit = async (event) => {
+    console.log("Payment Method");
+    try {
+      if (paymentMethod === "sepa") {
+        // Handle SEPA payment submission
+        const iban = elements.getElement("iban");
+        const result = await stripe.confirmSepaDebitPayment("your-client-secret", {
+          payment_method: {
+            sepa_debit: iban,
+            billing_details: {
+              name: "John Doe",
+              email: "email@example.com",
+            },
+          },
+        });
+
+      } else if (paymentMethod === "card") {
+        console.log("Card Payment");
+        // Handle card payment submission
+        const cardElement = elements.getElement(CardNumberElement);
+        
+        
+        console.log("Card Element", cardElement);
+        const result = await stripe.confirmCardPayment("pi_3Q0rccCNATD2pskq05Xf3OhF_secret_qvr1F8x1hm1J6G4P11seRPAMA", {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: "John Doe",
+            },
+          },
+        });
+        
+        console.log("Result", result);
+
+        if (result.error) {
+          console.error(result.error.message);
+          setErrorMessage(result.error.message);
+        } else {
+          // Payment successful
+          const paymentMethodId = result.paymentMethod.id;
+          console.log("Payment Method ID:", paymentMethodId);
+          alert("Payment Method ID: " + paymentMethodId);
+          alert("Card payment successful!");
+        }
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <div className="w-full h-full flex flex-col justify-between sm:pb-20">
+    <div className="flex flex-col justify-between w-full h-full sm:pb-20">
     <div className="flex-grow">
       <div className="text-[#1e1e1e] text-lg font-bold font-Poppins">
         Informations de paiement
@@ -93,13 +148,13 @@ export const PaymentForm = () => {
                 className="StripeElement mb-2 w-full border rounded-md px-3 py-2 hover:border-[#0056b3] focus:border-[#0056b3] focus:outline-none focus:border-[1.5px]"
               />
             </div>
-            <div className="flex justify-start items-center gap-2 mt-2">
+            <div className="flex items-center justify-start gap-2 mt-2">
               <input type="checkbox" className="cursor-pointer" />
               <div className="text-[#1e1e1e] text-[12px] sm:text-xs font-normal font-Poppins w-full">
                 Autoriser le débit automatique de votre compte bancaire
               </div>
             </div>
-            <div className="flex justify-start items-center gap-2 mt-1">
+            <div className="flex items-center justify-start gap-2 mt-1">
               <input type="checkbox" className="cursor-pointer" />
               <div className="text-[#1e1e1e] text-[12px] sm:text-xs font-normal font-Poppins">
                 Accepter nos <u>termes et conditions</u> ainsi que notre{" "}
@@ -229,7 +284,7 @@ export const PaymentForm = () => {
         </div>
       )}
       </div>
-      <div className="flex mt-4 justify-between sm:pr-8 align-bottom">
+      <div className="flex justify-between mt-4 align-bottom sm:pr-8">
         <button
           type="button"
           className="hover:bg-[#ccdef1] w-40 h-10 px-5 py-2 bg-white border border-[#0056b3] text-[#0056b3] rounded-lg font-medium font-Poppins text-sm"
@@ -240,6 +295,7 @@ export const PaymentForm = () => {
         <button
           type="submit"
           className="hover:bg-[#4179B5] w-40 h-10 px-5 py-2 bg-[#0056b3] rounded-lg text-white font-medium font-Poppins text-sm"
+          onClick={handleSubmit}
         >
           Continuer
         </button>
