@@ -45,12 +45,13 @@ import React, { useState } from 'react';
  */
 export const PersonalForm= (props)=> {
     // State for input fields and errors
-    const [fullName, setFullName] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [tva, setTva] = useState('');
+    
+    const [fullName, setFullName] = useState(props.personalInfo.fullName);
+    const [companyName, setCompanyName] = useState(props.personalInfo.companyName);
+    const [address, setAddress] = useState(props.personalInfo.address);
+    const [phone, setPhone] = useState(props.personalInfo.phone);
+    const [rememberMe, setRememberMe] = useState(props.personalInfo.rememberMe);
+    const [tva, setTva] = useState(props.personalInfo.tva);
     // State for errors
     const [errors, setErrors] = useState({
         fullName: '',
@@ -71,22 +72,18 @@ export const PersonalForm= (props)=> {
         if (!validateForm()) {
             return; // If validation fails, do not submit
         }
-        props.onNext({
+        props.onNext(
+            {
+            'step': 30,
+            'personalInfo': {
             fullName,
             companyName,
             address,
             phone,
             tva,
             rememberMe
-        })
+        }})
         // If validation passes, proceed with form submission
-        console.log({
-            fullName,
-            companyName,
-            address,
-            phone,
-            rememberMe
-        });
     };
 
     // Function to validate the form
