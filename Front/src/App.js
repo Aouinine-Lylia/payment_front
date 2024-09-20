@@ -11,24 +11,31 @@ import RefundTicketModal from './remboursement';
 
 function App() {
   return (
-    <div className="flex w-full sm:max-h-screen p-4 flex-col sm:flex-row justify-between ">
-    {/* <div className='w-full hidden sm:block'>
+    <div className="flex flex-col-reverse justify-between w-full p-4 sm:max-h-screen sm:flex-row ">
+    {/* <div className='hidden w-full sm:block'>
     <ProgressBar />
-    <SuccessScreen />
+    <PaymentForm />
     </div>
-    <div className='hidden sm:block w-1/3'>
+    <div className='hidden w-1/3 sm:block'>
       <InvoiceSummary />
     </div>
-    <div className='w-full sm:hidden justify-center'>
+    <div className='justify-center w-full sm:hidden'>
     <ProgressBar />
     <InvoiceSummary />
-    <SuccessScreen />
-    </div> */}
-    <RefundTicketModal 
+    <PaymentForm /> 
+    </div>*/}
+    {/* <RefundTicketModal 
     props=
       {
         {isOpen: true}
-    } />
+    } /> */}
+    <div className='flex flex-col max-h-screen sm:w-2/3'>
+    <ProgressBar />
+    <PaymentForm />
+    </div>
+    <div className='sm:w-1/3'>
+    <InvoiceSummary />
+    </div>
 </div>
 
   );
