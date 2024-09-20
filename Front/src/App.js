@@ -19,10 +19,10 @@ function App() {
 
   const onNext = (props) => {
     setStep((prevStep) => prevStep + 30);
-    if (props.personalInfo){
+    if (props){
       setPersonalInfo(props.personalInfo);
     }
-    else if (props.paymentInfo){
+    else{
       setPersonalInfo(personalInfo);
     }
     
