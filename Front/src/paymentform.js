@@ -16,7 +16,7 @@ const stripePromise = loadStripe(
   "pk_test_51PwQxFCNATD2pskqyuq7r52HaRlzGmB9tbljsFpUoRvAg1yd26vyM738auB5jaNovSFRKbbTdI6N83tZpgH4oDyX00hRXSYxaM"
 );
 
-const PaymentFormContent = () => {
+const PaymentFormContent = (props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentMethod, setPaymentMethod] = useState("sepa");
@@ -273,6 +273,7 @@ const PaymentFormContent = () => {
         <div className="flex mt-4 justify-between sm:pr-8 ">
           <button
             type="button"
+            onClick={props.onBack}
             className="hover:bg-[#ccdef1] w-40 h-10 px-5 py-2 bg-white border border-[#0056b3] text-[#0056b3] rounded-lg font-medium font-Poppins text-sm"
           >
             Retour
@@ -292,8 +293,8 @@ const PaymentFormContent = () => {
   );
 };
 
-export const PaymentForm = () => (
+export const PaymentForm = (props) => (
   <Elements stripe={stripePromise}>
-    <PaymentFormContent />
+    <PaymentFormContent onBack={props.onBack}/>
   </Elements>
 );

@@ -4,7 +4,7 @@ export const ProgressBar = ({ step }) => {
   if (!step) {
     step = 20;
   }
-  const widthStyle = { width: `${step}%` };
+  const widthStyle = { width: `${step}%`, transition: 'width 0.5s ease-in-out' };
 
   return (
     <div className="mb-6 sm:mb-0">

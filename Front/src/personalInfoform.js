@@ -43,20 +43,21 @@ import React, { useState } from 'react';
  * @name phoneRegex
  * @description Expression régulière pour autoriser uniquement les chiffres et éventuellement un '+' en tête.
  */
-export const PersonalForm= ()=> {
+export const PersonalForm= (props)=> {
     // State for input fields and errors
     const [fullName, setFullName] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-
+    const [tva, setTva] = useState('');
     // State for errors
     const [errors, setErrors] = useState({
         fullName: '',
         companyName: '',
         address: '',
-        phone: ''
+        phone: '',
+        tva: '',
     });
 
     // Regular expression to allow only numbers and optionally a leading '+'
@@ -70,7 +71,14 @@ export const PersonalForm= ()=> {
         if (!validateForm()) {
             return; // If validation fails, do not submit
         }
-
+        props.onNext({
+            fullName,
+            companyName,
+            address,
+            phone,
+            tva,
+            rememberMe
+        })
         // If validation passes, proceed with form submission
         console.log({
             fullName,
@@ -114,7 +122,13 @@ export const PersonalForm= ()=> {
                 address: ''
             }));
         }
-
+        if (tva.trim() === '') {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                tva: 'Le numéro de TVA est requis'
+            }));
+            valid = false;
+        }
         // Validate phone
         if (phone.trim() === '' || !phoneRegex.test(phone)) {
             setErrors((prevErrors) => ({
@@ -189,7 +203,8 @@ export const PersonalForm= ()=> {
                             <p className="text-red-500 text-xs mt-1">{errors.address}</p>
                         )}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 flex fl-row w-full sm:space-x-8 space-x-2 justify-center items-center">
+                    <div className='w-full'>
                         <label className="block text-[#1e1e1e] text-sm font-medium font-Poppins mb-2">
                             Numéro de téléphone
                         </label>
@@ -205,6 +220,21 @@ export const PersonalForm= ()=> {
                         {errors.phone && (
                             <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
                         )}
+                        </div>
+                        <div className='w-full'>
+                        <label className="block text-[#1e1e1e] text-sm font-medium font-Poppins mb-2">
+                            Numéro de TVA
+                        </label>
+                        <input
+                            type="text"
+                            className={`w-full border rounded-md px-3 py-2 hover:border-[#0056b3] focus:border-[#0056b3] focus:outline-none focus:border-[1.5px] ${
+                                errors.tva && 'border-red-500'
+                            }`}
+                            placeholder="Numéro de TVA"
+                            value={tva}
+                            onChange={(e) => setTva(e.target.value)}
+                        />
+                        </div>
                     </div>
                     <div className="h-6 justify-start items-center gap-2 inline-flex">
                         <input
