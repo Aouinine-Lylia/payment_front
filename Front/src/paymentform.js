@@ -40,7 +40,7 @@ const PaymentFormContent = (props) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    props.onNext();
+    
     if (!stripe || !elements) {
       setError("Stripe.js has not loaded yet. Please try again.");
       setLoading(false);
@@ -79,6 +79,7 @@ const PaymentFormContent = (props) => {
 
       // const paymentIntent = await response.json();
       console.log("Payment successful!", result.paymentMethod);
+      props.onNext();
     }
   };
 
@@ -273,7 +274,7 @@ const PaymentFormContent = (props) => {
         <div className="flex mt-4 justify-between sm:pr-8 ">
           <button
             type="button"
-            onClick={props.onBack}
+            onClick={() => props.onBack()}
             className="hover:bg-[#ccdef1] w-40 h-10 px-5 py-2 bg-white border border-[#0056b3] text-[#0056b3] rounded-lg font-medium font-Poppins text-sm"
           >
             Retour
