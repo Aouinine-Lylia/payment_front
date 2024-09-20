@@ -19,7 +19,7 @@ export const SuccessScreen = (props) => {
           <div className="grow shrink basis-0 text-[#1e1e1e] text-md font-medium font-Poppins ">
             Suivre l’état de votre Virement SEPA
           </div>
-          <img src="Arrow right.svg" />
+          <img src="Arrow right.svg" alt="Arrow right" />
         </div>
         ):(
             <div className="space-y-8 w-full sm:w-[60%] flex flex-col">
@@ -27,13 +27,13 @@ export const SuccessScreen = (props) => {
           <div className="grow shrink basis-0 text-[#1e1e1e] text-md font-medium font-Poppins ">
           Consulter ou télécharger la facture 
           </div>
-          <img src="download.svg" />
+          <img src="download.svg" alt="download"/>
       </div>
       <div className="px-10 py-8 bg-white rounded border border-[#0056b3] justify-between items-center inline-flex">
           <div className="grow shrink basis-0 text-[#1e1e1e] text-md font-medium font-Poppins ">
           Envoyer facture par e-mail
           </div>
-          <img src="Paper Plane.svg" />
+          <img src="Paper Plane.svg" alt="send" />
       </div></div>
       )}
     </div>

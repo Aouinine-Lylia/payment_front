@@ -1,7 +1,7 @@
 // Code for payment form
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { useEffect, useState, useRef } from "react";
+import {  useState} from "react";
 import {
   Elements,
   CardNumberElement,
@@ -22,25 +22,24 @@ const PaymentFormContent = () => {
   const [paymentMethod, setPaymentMethod] = useState("sepa");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const ibanRef = useRef(null);
+
   const ibanOptions = {
-    supportedCountries: ['SEPA'], // or specify countries like ['DE', 'FR', 'ES']
+    supportedCountries: ["SEPA"], // or specify countries like ['DE', 'FR', 'ES']
     style: {
-                      base: {
-                        fontSize: "16px",
-                        color: "#32325d",
-                        "::placeholder": {
-                          color: "#A0A0A0",
-                        },
-                      },
-                      invalid: {
-                        color: "#fa755a",
-                      },
-                    },
+      base: {
+        fontSize: "16px",
+        color: "#32325d",
+        "::placeholder": {
+          color: "#A0A0A0",
+        },
+      },
+      invalid: {
+        color: "#fa755a",
+      },
+    },
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
 
     if (!stripe || !elements) {
       setError("Stripe.js has not loaded yet. Please try again.");
@@ -80,15 +79,16 @@ const PaymentFormContent = () => {
 
       // const paymentIntent = await response.json();
       console.log("Payment successful!", result.paymentMethod);
-      
     }
   };
 
   // ... (rest of your component code)
 
   return (
-    <form  className="w-full h-screen flex flex-col justify-between" onSubmit={handleSubmit}>
-      
+    <form
+      className="w-full h-screen flex flex-col justify-between"
+      onSubmit={handleSubmit}
+    >
       <div className="w-full h-full flex flex-col justify-between">
         <div className="flex-grow">
           <div className="text-[#1e1e1e] text-lg font-bold font-Poppins">
@@ -130,14 +130,8 @@ const PaymentFormContent = () => {
                   <label className="block text-[#1e1e1e] text-sm font-medium font-Poppins mb-2">
                     Numéro de compte (IBAN)
                   </label>
-                  <div
-                    className="StripeElement mb-2 w-full border rounded-md px-3 py-2 hover:border-[#0056b3] focus:border-[#0056b3] focus:outline-none focus:border-[1.5px]"
-                  >
-                  <IbanElement
-                   options={
-                    ibanOptions
-                  }
-                  />
+                  <div className="StripeElement mb-2 w-full border rounded-md px-3 py-2 hover:border-[#0056b3] focus:border-[#0056b3] focus:outline-none focus:border-[1.5px]">
+                    <IbanElement options={ibanOptions} />
                   </div>
                 </div>
                 <div className="flex justify-start items-center gap-2 mt-2">
