@@ -40,7 +40,7 @@ const PaymentFormContent = (props) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    props.onNext();
     if (!stripe || !elements) {
       setError("Stripe.js has not loaded yet. Please try again.");
       setLoading(false);
@@ -295,6 +295,6 @@ const PaymentFormContent = (props) => {
 
 export const PaymentForm = (props) => (
   <Elements stripe={stripePromise}>
-    <PaymentFormContent onBack={props.onBack}/>
+    <PaymentFormContent onBack={props.onBack} onNext={props.onNext}/>
   </Elements>
 );
