@@ -5,6 +5,7 @@ import { PaymentForm } from './paymentform';
 import { useState } from 'react';
 import { PersonalForm } from './personalInfoform';
 import { SuccessScreen } from './succesScreen';
+import SuiviPaiement from './suiviPaiement';
 
 function App() {
   const [step, setStep] = useState(30);
@@ -34,22 +35,8 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col-reverse justify-between w-full p-4 sm:max-h-screen sm:flex-row ">
-      <div className='flex flex-col max-h-screen sm:w-2/3'>
-        <ProgressBar step={step} />
-        {step === 30 && 
-          <PersonalForm onNext={onNext} personalInfo={personalInfo} />
-        }
-        {step === 60 && 
-          <PaymentForm onNext={onNext} onBack={onBack} />
-        } 
-        {step > 60 &&
-          <SuccessScreen />
-        }
-      </div>
-      <div className='sm:w-1/3'>
-        <InvoiceSummary />
-      </div>
+    <div>
+      <SuiviPaiement />
     </div>
   );
 }
